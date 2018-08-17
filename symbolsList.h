@@ -1,9 +1,3 @@
-/*
-Authors:
-Guy Komari
-Gil Mansharov
-*/
-
 #ifndef SYMBOLS_LIST_H
 #define	SYMBOLS_LIST_H
 
@@ -36,26 +30,27 @@ bool addToSymbolsList(symbolPtr*, symbolPtr*, char*, int, bool, bool, bool, bool
 
 /*
 Description:
-gets a node as a pointer to symbolPtr struct, the head and tail of the symbols list, and adds the node to the symbols list.
-*/
-void addNodeToSymbolList(symbolPtr*, symbolPtr*, symbolPtr*);
-
-/*
-Description:
 frees the symbols list dynamically allocated memory.
 */
 void freeSymbolsList(symbolPtr *head);
 
 /*
 Description:
-check if a node with label name already exists in list. 
+gets a node as a pointer to symbolPtr struct, the head and tail of the symbols list, and adds the node to the symbols list.
 */
-bool nodeExists(symbolPtr *head, char *labelname);
+void addNodeToSymbolList(symbolPtr*, symbolPtr*, symbolPtr*);
+
 /*
 Description:
 gets the symbols list head, and the value of IC, and updates the addresses of the symbols that stored in the symbols list.
 */
 void updateDataSymbols(symbolPtr*, int);
+
+/*
+Description: 
+check if a node with label name already exists in list. 
+*/
+bool nodeExists(symbolPtr *head, char *labelname);
 
 /*
 Description:

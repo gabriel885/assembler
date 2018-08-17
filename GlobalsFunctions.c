@@ -1,24 +1,8 @@
 #include "GlobalsFunctions.h"
 
-bool isRegister(char *str){
-	int i;
-	for (i = 0; i < NUM_OF_REGISTERS; i++){
-		if (strcmp(str, Registers[i]) == 0)
-			return TRUE;
-	}
-	return FALSE;
-}
-
-bool isOpcode(char *str){
-	int i;
-	for (i=0;i<NUM_OF_OPCODES;i++){
-		if (!(strcmp(str, opcodes[i].opcodeName)))
-			return TRUE;
-	}
-	return FALSE;
-}
 
 bool isLabel(char* src, char* dest){
+
 	bool res, flag;
 	char *temp, *start;
 	int len;
@@ -91,6 +75,24 @@ bool isLabel(char* src, char* dest){
 	return res;
 }
 
+bool isRegister(char *str){
+	int i;
+	for (i = 0; i < NUM_OF_REGISTERS; i++){
+		if (strcmp(str, Registers[i]) == 0)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+bool isOpcode(char *str){
+	int i;
+	for (i=0;i<NUM_OF_OPCODES;i++){
+		if (!(strcmp(str, opcodes[i].opcodeName)))
+			return TRUE;
+	}
+	return FALSE;
+}
+
 bool isLabelData(symbolPtr *head, char* labelname){
 	symbolPtr temp = *head;
 	while (temp){
@@ -105,19 +107,8 @@ bool isLabelData(symbolPtr *head, char* labelname){
 
 	return FALSE;
 }
-bool isLabelExtern(symbolPtr *head, char* labelname){
-	symbolPtr temp = *head;
-	while (temp){
-		if (!(strcmp(labelname, (temp)->name))){
-			if((temp)->isExternal){
-				return TRUE;
-			}
-			return FALSE;
-		}
-		temp = (temp)->next;
-	}
-	return FALSE;
-}
+
+
 bool isLabelEntry(symbolPtr *head, char* labelname){
 	symbolPtr temp = *head;
 	while (temp){
@@ -131,10 +122,27 @@ bool isLabelEntry(symbolPtr *head, char* labelname){
 	}
 	return FALSE;
 }
+
+bool isLabelExtern(symbolPtr *head, char* labelname){
+	symbolPtr temp = *head;
+	while (temp){
+		if (!(strcmp(labelname, (temp)->name))){
+			if((temp)->isExternal){
+				return TRUE;
+			}
+			return FALSE;
+		}
+		temp = (temp)->next;
+	}
+	return FALSE;
+}
+
+/* return true if label is already defined */
 bool isLabelDefined(symbolPtr *symbols_h, char* labelname){
 	return nodeExists(symbols_h,labelname);
 }
 
+/* return true if line is an entry declaration */
 bool isEntry(char* line){
 	char *temp = trimString(line);
 	if (strstr(temp, ENTRY_DECLARATION))
@@ -142,14 +150,14 @@ bool isEntry(char* line){
 	return FALSE;
 }
 
-
+/* return true if line is an extern declaration */
 bool isExtern(char* line){
 	char *temp = trimString(line);
 	if (strstr(temp, EXTERN_DECLARATION))
 		return TRUE;
 	return FALSE;
 }
-
+/* validate label */
 bool isValidLabel(char* token){
 	int i = 0, length;
 	char* trimmed;
@@ -174,8 +182,6 @@ bool isValidLabel(char* token){
 	}
 	return TRUE;
 }
-
-
 
 bool checkLabel(char *line , char *type){
 	int i;
@@ -234,7 +240,7 @@ bool jumpingWithParameters(char* line){
 	char *token;
 	char *label,*par1,*par2,*tooMuchWordsFlag;
 	
-	/* L1(#-1,r4) */
+	/* e.g L1(#-1,r4) */
 	token = trimString(line); 
 	
 	if (!hasParanthesis(token)){
@@ -283,11 +289,10 @@ bool jumpingWithParameters(char* line){
 			printError("Source parameter should be label,register or number operand (ex. #5)");	
 	}	
 	
-	/* first parameter goes to r6 */
-	/* second parameter goes to r7 */
-	
 	return FALSE;
 }
+
+/* check if token is a numb operand (e.g #5) */
 bool isNumOperand(char* token){
 	int  i = 0, num;
 	char* trimmed;
@@ -320,19 +325,6 @@ bool isNumOperand(char* token){
 }
 
 
-bool isEmptySentence(char* line){
-	char *temp;
-	if (line == NULL){
-		return TRUE;	
-	}
-	temp = trimString(line);
-
-	if (strlen(temp)==0){
-		return TRUE;	
-	}
-	return FALSE;
-}
-
 bool isComment(char* line){
 	char *temp;
 	if (line == NULL){
@@ -344,9 +336,8 @@ bool isComment(char* line){
 	return FALSE;
 }
 
-
-char *trimLeftString(char *str)
-{
+/* trim from the left of the string */
+char *trimLeftString(char *str){
 	if (str == NULL)
 		return NULL;
 	while (isspace(*str) && *str >= 0 && *str <= 255)
@@ -354,6 +345,7 @@ char *trimLeftString(char *str)
 	return str;
 }
 
+/* trim from the right of the string */
 char *trimRightString(char *str){
 	int i, length;
 	char *back;
@@ -372,11 +364,27 @@ char *trimRightString(char *str){
 	return str;
 }
 
+/* trim string from both sides */
 char* trimString(char* str){
 	char* res = trimRightString(trimLeftString(str));
 	return res;
 }
 
+/* check if line is an empty sentence */
+bool isEmptySentence(char* line){
+	char *temp;
+	if (line == NULL){
+		return TRUE;	
+	}
+	temp = trimString(line);
+
+	if (strlen(temp)==0){
+		return TRUE;	
+	}
+	return FALSE;
+}
+
+/* check if file exists */
 bool isFileExists(char* fileName){
 	FILE* fh;
 	bool res;
@@ -388,12 +396,9 @@ bool isFileExists(char* fileName){
 	fclose(fh);
 	return res;
 }
-/* return symbol */
-int whichSymbol(char *line, bool is_label){
-	return 0;
-}
 
-/* get .string or .data symbol from line */
+
+/* get .string or .data symbol from line string */
 bool getSymbol(char* line, char* dest, bool is_label){
 
 	bool afterLabel,detectedSymbol;
@@ -443,10 +448,6 @@ bool getSymbol(char* line, char* dest, bool is_label){
 		}	
 	}
 
-
-
-
-
 	if (correctSymbol != -1){
 		if (dest != NULL)
 			strncpy(dest, DataCommand[correctSymbol], strlen(DataCommand[correctSymbol]));
@@ -455,8 +456,8 @@ bool getSymbol(char* line, char* dest, bool is_label){
 	return FALSE;
 }
 
-bool addNumberToDataList(dataPtr *head, dataPtr *tail, int dc, int num)
-{
+/* add number to data list */
+bool addNumberToDataList(dataPtr *head, dataPtr *tail, int dc, int num){
 	if (num >= 0){
 		if (num > MAX_DATA_NUMBER){
 			printError(OVERFLOW_DATA_POSITIVE_NUMBER);
@@ -473,7 +474,6 @@ bool addNumberToDataList(dataPtr *head, dataPtr *tail, int dc, int num)
 	}
 	return TRUE;
 }
-
 
 
 AddressingMode getOperandAddressing(char* token){
@@ -493,6 +493,7 @@ AddressingMode getOperandAddressing(char* token){
 	return -1;
 }
 
+/* check if line has open and closing paranthesis */
 bool hasParanthesis(char *line){
 	char *temp;
 	char *p1,*p2;
@@ -571,6 +572,8 @@ bool validAddressingOperand(char *op, AddressingMode srcOpAddress, AddressingMod
 	}
 	return FALSE;	
 }
+
+/* return true if string has space */
 bool stringHasSpace(char *str){
 	char *temp;
 	temp = str;
@@ -600,9 +603,7 @@ int getCommandSize(char* command){
 
 	/* handle addressing with parameters command */
 	if (hasParanthesis(command)){
-
-		/* printf("-%s-",command); */
-		
+	
 		token = strtok(command, delim); 
 		token = trimString(token);
 		for (i=0;i<NUM_OF_ADDRESSING_WITH_PARAMETERS;i++){
@@ -679,8 +680,6 @@ int getCommandSize(char* command){
 					
 					srcOperand = trimString(srcOperand);
 					destOperand = trimString(destOperand);
-			
-					/* printf("\n%s\t%s\t%s\n",command,srcOperand,destOperand); */
 					
 					if (tooMuchWordsFlag != NULL){
 						printError(TOO_MUCH_OPERANDS_IN_COMMAND);
@@ -712,6 +711,7 @@ int getCommandSize(char* command){
 						printError(INVALID_DEST_OPERAND);
 						return 0;
 					}
+
 					/* source operand with lea opcode must be label */
  					if (strcmp(opcode->opcodeName, "lea") == 0 && (srcOperandAddressing == IMMEDIATE || srcOperandAddressing == DIRECT_REGISTER)){
 						printError(LEA_COMMAND_ADDRESSING_MODE_ERROR);
@@ -741,7 +741,6 @@ int getCommandSize(char* command){
 						sizeOfCommand += 2;					
 					}
 		
-					/*printf("\n%s srcOp- %d destOp- %d CommandSize- %d\n",token,srcOperandAddressing,destOperandAddressing, sizeOfCommand);*/
 
 					return sizeOfCommand;
 			}
@@ -749,10 +748,9 @@ int getCommandSize(char* command){
 
 			/* 1 Operand Opcode*/
 			case SECOND_GROUP:{
+
 				destOperand = strtok(NULL, delim);						
 				tooMuchWordsFlag = strtok(NULL, delim);
-				
-   				/* printf("\n%s\t%s",command,destOperand); */
 
 				if (destOperand == NULL){
 					printError(TOO_FEW_OPERANDS_IN_COMMAND);
@@ -787,16 +785,12 @@ int getCommandSize(char* command){
 				/* destination encoding word */
 				sizeOfCommand++;
 
-				/* printf("\n%s destOp- %d CommandSize- %d\n",token,destOperandAddressing,sizeOfCommand); */
 				return sizeOfCommand;
 			}
 			break;
 
 			/* No Operands Opcode */
-			case THIRD_GROUP:{
-
-				/* printf("\n%s\n",command); */
-				
+			case THIRD_GROUP:{				
 				/* command size is 1 */
 				tooMuchWordsFlag = strtok(NULL, delim);
 				if (tooMuchWordsFlag != NULL){
@@ -804,7 +798,7 @@ int getCommandSize(char* command){
 					return 0;
 				}
 				sizeOfCommand = 1;
-				/* printf("\n%s no operands, CommandSize- %d \n",token, sizeOfCommand); */
+
 				return sizeOfCommand;
 			}
 			break;
@@ -823,10 +817,8 @@ int getCommandSize(char* command){
 /* converts decimal to binary and binary to weird */
 void decimalToWierd(int num, char* res){
 
-	
 	int binary_word[WORD_SIZE] = {0};
 	
-	/*case - num < 0*/
 	if (num<0){
 		num = MAX14BITS - (num*(-1)); /* 2's complement */
 	}
@@ -836,6 +828,7 @@ void decimalToWierd(int num, char* res){
 	binaryToWierd(binary_word,res,WORD_SIZE);
 	
 }
+
 /* convert int binary array to weird 2 char array */
 void binaryToWierd(int *binary, char *res, int arrSize){
 	int i;
@@ -892,8 +885,8 @@ bool isDataCommand(char* token){
 	return FALSE;
 }
 
-int getNumber(char* token)
-{
+/* get number from direct addressing (e.g #5) */
+int getNumber(char* token){
 	char* temp;
 	char * num;
 	int end = 0;
@@ -913,9 +906,7 @@ int getNumber(char* token)
 	return atoi(num);
 }
 
-
-bool isKeyword(char* str)
-{
+bool isKeyword(char* str){
 	int i = 0;
 	char *tmp = trimString(str);
 	for (i=0;i<NUM_OF_KEYWORDS;i++){
@@ -925,48 +916,8 @@ bool isKeyword(char* str)
 	return FALSE;
 }
 
-bool isStructWithDotOperand(char* operand)
-{
-	int length;
-	char* temp;
-	char* token;
-	int num;
-	length = strlen(operand);
-	temp = (char*)malloc(length + 1);
-	if (!temp)
-	{
-		printError(ALLOCATE_MEMORY_ERROR);
-		return FALSE;
-	}
-	strncpy(temp, operand, length + 1);
-	token = strtok(temp, ".");
-	trimLeftString(token);
-	if (!isValidLabel(token))
-	{
-		free(temp);
-		return FALSE;
-	}
-	token = strtok(NULL, ".");
-	if (token == NULL)
-	{
-		free(temp);
-		return FALSE;
-	}
-	token = trimRightString(token);
-	num = atoi(token);
-	if (num != 1 && num != 2)
-	{
-		free(temp);
-		return FALSE;
-	}
-	token = strtok(NULL, ".");
-	free(temp);
-	return (token == NULL) ? TRUE : FALSE;
-
-}
-
-bool readLine(FILE* fp, char* line)
-{
+/* read line from file */
+bool readLine(FILE* fp, char* line){
 	bool flag = FALSE;
 	lineCounter++;
 	if (line == NULL)
@@ -976,9 +927,8 @@ bool readLine(FILE* fp, char* line)
 	flag = (fgets(line, MAX_LINE_LENGTH, fp) != NULL) ? TRUE : FALSE;
 	return flag;
 }
-
-void resetLine(char *line, char* labelName, char *data)
-{
+/* reset line */
+void resetLine(char *line, char* labelName, char *data){
 	int i;
 	for (i = 0; i < MAX_LINE_LENGTH + 1; i++)
 	{
@@ -987,7 +937,6 @@ void resetLine(char *line, char* labelName, char *data)
 		data[i] = 0;
 	}
 }
-
 
 bool isNumber(char *token){
 	int i=0;
@@ -1020,7 +969,7 @@ bool isString(char *str){
 	return TRUE;
 }
 
-
+/* return true if line start with command */
 bool StartWithCommand(char * line){
 
 	int i = 0, len = 0;
@@ -1042,6 +991,7 @@ bool StartWithCommand(char * line){
 	return FALSE;
 }
 
+/* return true if line starts with data command */
 bool StartWithDataCommand(char * line){
 
 	int i = 0;

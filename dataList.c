@@ -52,8 +52,7 @@ void addNodeToDataList(dataPtr *temp, dataPtr *head, dataPtr *tail){
 }
 
 
-void freeDataList(dataPtr *head)
-{
+void freeDataList(dataPtr *head){
 	dataPtr temp;
 	while (*head){
 		temp = *head;

@@ -1,6 +1,8 @@
-
 #ifndef GLOBAL_VARIABLES_H
 #define GLOBAL_VARIABLES_H
+
+
+typedef enum { FALSE, TRUE } bool;
 
 #define INPUT_EXTENSION ".as"
 
@@ -77,8 +79,8 @@
 #define MIN_NUMBER -128
 #define MAX_NUMBER 127
 
-#define MIN_DATA_NUMBER -512 
-#define MAX_DATA_NUMBER 511
+#define MIN_DATA_NUMBER -16384 /* 14 bits */
+#define MAX_DATA_NUMBER 16383 
 
 #define NUM_OF_DATA_TYPES 2
 
@@ -89,8 +91,6 @@
 #define NUM_OF_ADDRESSING_WITH_PARAMETERS 3
 
 #define SPACE_INSIDE_PARAMETER_ERROR "Parameter should not have space inside them"
-
-typedef enum { FALSE, TRUE } bool;
 
 
 typedef enum { IMMEDIATE, DIRECT_MEMORY, JUMPING_WITH_PARAMETERS, DIRECT_REGISTER } AddressingMode;
@@ -103,19 +103,16 @@ typedef struct opcode_structure{
 	int group;
 } opcodeStructure;
 
-
 typedef struct register_structure{
 	const char* registerName;
 	int address[REGISTER_ADDRESS_SIZE];
 } RegisterStructure;
-
 
 typedef struct word{
 	int opcode[OPCODE_SIZE];
 	int sourceOperand[OPERAND_SIZE];
 	int ERAcode[ERACODE_SIZE];
 } word;
-
 
 typedef enum {
 	Absolute,
@@ -131,32 +128,32 @@ typedef struct ERAStructure{
 
 
 
-extern ERAStructure ERATypes[ERA_TYPES_SIZE];
-
-extern char* WIERD_2_BASE[BASE_LENGTH];
+extern char *OpcodesSecondGroup[SECOND_GROUP_SIZE];
 
 extern char* Keywords[NUM_OF_KEYWORDS];
 
-extern char* Registers[NUM_OF_REGISTERS];
-
-extern char* addressing_with_parameters_operands[NUM_OF_ADDRESSING_WITH_PARAMETERS];
-
-extern opcodeStructure opcodes[NUM_OF_OPCODES];
-
 extern RegisterStructure registersBinary[NUM_OF_REGISTERS];
 
-extern int lineCounter;
-
-extern char *OpcodesFirstGroup[FIRST_GROUP_SIZE];
-
-extern char *OpcodesSecondGroup[SECOND_GROUP_SIZE];
+extern char* Registers[NUM_OF_REGISTERS];
 
 extern char *OpcodesThirdGroup[THIRD_GROUP_SIZE];
 
 extern char *DataCommand[NUM_OF_DATA_TYPES];
 
+extern char* addressing_with_parameters_operands[NUM_OF_ADDRESSING_WITH_PARAMETERS];
+
+extern char *OpcodesFirstGroup[FIRST_GROUP_SIZE];
+
 extern int DataCommandLength[NUM_OF_DATA_TYPES];
 
+extern opcodeStructure opcodes[NUM_OF_OPCODES];
+
+extern ERAStructure ERATypes[ERA_TYPES_SIZE];
+
 extern char *AssemblyfileName;
+
+extern char* WIERD_2_BASE[BASE_LENGTH];
+
+extern int lineCounter;
 
 #endif

@@ -1,7 +1,6 @@
 #include "symbolsList.h"
 
-bool addToSymbolsList(symbolPtr *head, symbolPtr *tail, char* symbol, int addr, bool isEx, bool isC, bool isD, bool isEn)
-{
+bool addToSymbolsList(symbolPtr *head, symbolPtr *tail, char* symbol, int addr, bool isEx, bool isC, bool isD, bool isEn){
 	int i;
 	symbolPtr temp;
 	symbolPtr* pTemp;
@@ -38,8 +37,7 @@ bool addToSymbolsList(symbolPtr *head, symbolPtr *tail, char* symbol, int addr, 
 }
 
 
-void addNodeToSymbolList(symbolPtr *temp, symbolPtr *head, symbolPtr *tail)
-{
+void addNodeToSymbolList(symbolPtr *temp, symbolPtr *head, symbolPtr *tail){
 	if (*head == NULL)/*case- empty list*/
 	{
 		*head = *temp;
@@ -65,8 +63,7 @@ void updateDataSymbols(symbolPtr *head, int ic){
 	}
 }
 
-void freeSymbolsList(symbolPtr *head)
-{
+void freeSymbolsList(symbolPtr *head){
 	symbolPtr temp;
 	while (*head)
 	{
@@ -88,8 +85,8 @@ bool nodeExists(symbolPtr *head, char *labelname){
 	return FALSE;
 
 }
-void printSymbolsList(symbolPtr *head)
-{
+
+void printSymbolsList(symbolPtr *head){
 	symbolPtr temp = *head;
 	printf("%s\n", "Symbols list:");
 	while (temp != NULL)

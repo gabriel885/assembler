@@ -1,9 +1,8 @@
 #include "main.h"
 
-int main(int argc, char** argv)
-{
+int main(int argc, char** argv){
 	int i, j, filename_length;
-	FILE *fp;
+	FILE *fp; 
 	
 	i=j=filename_length=0;
 
@@ -47,5 +46,5 @@ int main(int argc, char** argv)
 		runAssembler(AssemblyfileName);
 		free(AssemblyfileName);
 	}
-	return EXIT_SUCCESS;
+	return 1;
 }

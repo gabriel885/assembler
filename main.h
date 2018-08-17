@@ -1,9 +1,3 @@
-/*
-Authors:
-Guy Komari
-Gil Mansharov
-*/
-
 #ifndef MAIN_H
 #define MAIN_H
 

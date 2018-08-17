@@ -1,9 +1,3 @@
-/*
-Authors:
-Guy Komari
-Gil Mansharov
-*/
-
 #ifndef ASSEMBLER_H
 #define ASSEMBLER_H
 
@@ -16,6 +10,7 @@ bool firstpass(char*);
 /*Description: start the first pass, returns true if didnt find errors*/
 bool secondPass(char*);
 
+/* Description: run assembler program */
 void runAssembler(char*);
 
 #endif

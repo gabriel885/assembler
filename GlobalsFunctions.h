@@ -1,8 +1,3 @@
-/*
-Authors:
-Guy Komari
-Gil Mansharov
-*/
 #ifndef GLOBAL_FUNCTIONS_H
 #define GLOBAL_FUNCTIONS_H
 
@@ -15,8 +10,6 @@ Gil Mansharov
 #include "globalVariables.h"
 #include "errors.h"
 
-/*Description: is a valid label */
-bool checkLabel(char *, char*);
 
 /*Description: is a valid register*/
 bool isRegister(char*);
@@ -27,20 +20,20 @@ bool isOpcode(char*);
 /*Description: has open paranthesis in line */
 bool hasParanthesis(char*);
 
-/*
-Description: gets a token and returns TRUE if it's a valid label. otherwise, returns FALSE.
-*/
-bool isValidLabel(char*);
 
-/* check if string has space inside it */
-bool stringHasSpace(char *);
+/*Description: is a valid label */
+bool checkLabel(char *, char*);
 
-/* checks if valid addressing method for source/destination operands */
-bool validAddressingOperand(char*, AddressingMode, AddressingMode);
+
 /*
 Description: gets an operand and returns TRUE if it's a number operand. otherwise, returns FALSE.
 */
 bool isNumOperand(char*);
+
+/*
+Description: gets a token and returns TRUE if it's a valid label. otherwise, returns FALSE.
+*/
+bool isValidLabel(char*);
 
 /*
 Description: gets an operand and returns TRUE if it's a jumping with parameters valid addressing, otherwise returns FALSE 
@@ -49,11 +42,12 @@ Note: valid operands are jmp,bne,jsr
 */
 bool jumpingWithParameters(char*);
 
-/*
-Description: gets an operand and returns TRUE if it's a struct with a dot, and afterwards the number 1 or 2.
-otherwise, returns FALSE.
-*/
-bool isStructWithDotOperand(char*);
+/* check if string has space inside it */
+bool stringHasSpace(char *);
+
+/* checks if valid addressing method for source/destination operands */
+bool validAddressingOperand(char*, AddressingMode, AddressingMode);
+
 
 /*
 Description: gets an operand and returns it's addressing mode. if the operand is invalid, returns -1.
@@ -65,6 +59,16 @@ Description: Gets a line to check if it has a label definition,
 if true - returns TRUE and insert the label to the destination string, otherwise, returns FALSE.
 */
 bool isLabel(char*, char*);
+
+/*
+Description: gets an line and returns TRUE if it's an entry line declaration. otherwise, returns FALSE.
+*/
+bool isEntry(char*);
+
+/*
+Description: gets an line and returns TRUE if it's an extern line declaration. otherwise, returns FALSE.
+*/
+bool isExtern(char*);
 
 /*
 Description: check if label is a data command 
@@ -85,16 +89,6 @@ bool isLabelEntry(symbolPtr*, char*);
 Description: gets a valid label and checks if this label already defined
 */
 bool isLabelDefined(symbolPtr*, char*);
-
-/*
-Description: gets an line and returns TRUE if it's an entry line declaration. otherwise, returns FALSE.
-*/
-bool isEntry(char*);
-
-/*
-Description: gets an line and returns TRUE if it's an extern line declaration. otherwise, returns FALSE.
-*/
-bool isExtern(char*);
 
 /*
 Description: is an empty sentence
@@ -129,6 +123,19 @@ returns TRUE if .string or .data symbol is exist (only one of them), if not, ret
 bool getSymbol(char*, char*, bool);
 
 /*
+Description: gets a parsed command (i.e "mov r1, r3") without any spaces or unnecessary characters.
+returns the number that IC should be incremented with.
+returns 0 when failed.
+*/
+int getCommandSize(char*);
+
+/*
+Description: convert a binary code to decimal number
+and returns the number
+*/
+int binaryToDecimal(int *);
+
+/*
 Description: trim whitespace from a string
 */
 char *trimString(char*);
@@ -143,12 +150,23 @@ trim whitespaces on left end of a string
 */
 char *trimLeftString(char*);
 
+
 /*
-Description: gets a parsed command (i.e "mov r1, r3") without any spaces or unnecessary characters.
-returns the number that IC should be incremented with.
-returns 0 when failed.
+Description: checks if a line is a data command (declaration of .string, .data ).
+returns TRUE if the line is a data command, otherwise, returns FALSE.
 */
-int getCommandSize(char*);
+bool isDataCommand(char*);
+/*
+Description: gets a number operand and returns it as an integer.
+input: #-1
+outut: -1
+*/
+int getNumber(char*);
+
+/*
+Description: is a valid string
+*/
+bool isString(char *);
 
 /*
 Description: convert decimal code to binary code
@@ -167,27 +185,19 @@ Description: convert 10 word length represents in binary code to wierd 2 base
 void decimalToWierd(int, char*);
 
 /*
-Description: convert a binary code to decimal number
-and returns the number
+Description: is a sentence start with data command
 */
-int binaryToDecimal(int *);
-
-/*
-Description: checks if a line is a data command (declaration of .string, .data ).
-returns TRUE if the line is a data command, otherwise, returns FALSE.
-*/
-bool isDataCommand(char*);
-/*
-Description: gets a number operand and returns it as an integer.
-input: #-1
-outut: -1
-*/
-int getNumber(char*);
+bool StartWithDataCommand(char *);
 
 /*
 Description: gets a FILE* handle and a destination string, and reads the next line from the file to the string.
 */
 bool readLine(FILE*, char*);
+
+/*
+Description: is a sentence start with command
+*/
+bool StartWithCommand(char *);
 
 /*
 Description: reset the variables used in the first pass
@@ -198,21 +208,6 @@ void resetLine(char *, char* , char *);
 Description: is a valid number
 */
 bool isNumber(char *);
-
-/*
-Description: is a valid string
-*/
-bool isString(char *);
-
-/*
-Description: is a sentence start with command
-*/
-bool StartWithCommand(char *);
-
-/*
-Description: is a sentence start with data command
-*/
-bool StartWithDataCommand(char *);
 
 
 #endif

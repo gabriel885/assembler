@@ -1,33 +1,18 @@
 #include "globalVariables.h"
 
-int lineCounter;
-
-ERAStructure ERATypes[ERA_TYPES_SIZE] = {
-{ 0	,	Absolute	,	"00" },
-{ 1	,	External	,	"01" },
-{ 2	,	Relocatable	,	"10" }
-};
-
 char* Keywords[NUM_OF_KEYWORDS] = {"mov","cmp","add","sub","not","clr","inc", "lea","dec","jmp","bne","red","prn","jsr","rts","stop",
 ".data", ".string", ".extern", ".entry"};
 
+char* WIERD_2_BASE[BASE_LENGTH] = {".","/"};
 
 char* Registers[NUM_OF_REGISTERS] = { "r0","r1","r2","r3","r4","r5","r6","r7" };
 
 char* addressing_with_parameters_operands[NUM_OF_ADDRESSING_WITH_PARAMETERS] = {"jmp","jsr","bne"};
 
-char* WIERD_2_BASE[BASE_LENGTH] = {".","/"};
-
-
-RegisterStructure registersBinary[NUM_OF_REGISTERS] = {
-{ "r0"	,{ 0,0,0,0 } },
-{ "r1"	,{ 0,0,0,1 } },
-{ "r2"	,{ 0,0,1,0 } },
-{ "r3"	,{ 0,0,1,1 } },
-{ "r4"	,{ 0,1,0,0 } },
-{ "r5"	,{ 0,1,0,1 } },
-{ "r6"	,{ 0,1,1,0 } },
-{ "r7"	,{ 0,1,1,1 } }
+ERAStructure ERATypes[ERA_TYPES_SIZE] = {
+{ 0	,	Absolute	,	"00" },
+{ 1	,	External	,	"01" },
+{ 2	,	Relocatable	,	"10" }
 };
 
 opcodeStructure opcodes[NUM_OF_OPCODES] = {
@@ -49,6 +34,18 @@ opcodeStructure opcodes[NUM_OF_OPCODES] = {
 { 15	,	"stop"	,{ 1,1,1,1 }	,	THIRD_GROUP }
 };
 
+RegisterStructure registersBinary[NUM_OF_REGISTERS] = {
+{ "r0"	,{ 0,0,0,0 } },
+{ "r1"	,{ 0,0,0,1 } },
+{ "r2"	,{ 0,0,1,0 } },
+{ "r3"	,{ 0,0,1,1 } },
+{ "r4"	,{ 0,1,0,0 } },
+{ "r5"	,{ 0,1,0,1 } },
+{ "r6"	,{ 0,1,1,0 } },
+{ "r7"	,{ 0,1,1,1 } }
+};
+
+int lineCounter;
 
 char *OpcodesFirstGroup[FIRST_GROUP_SIZE] = { "mov","cmp","add","sub","lea" };
 char *OpcodesSecondGroup[SECOND_GROUP_SIZE] = { "not", "clr","inc","dec","jmp","bne","red","prn","jsr" };

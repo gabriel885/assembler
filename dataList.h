@@ -1,9 +1,3 @@
-/*
-Authors:
-Guy Komari
-Gil Mansharov
-*/
-
 #ifndef DATA_LIST_H
 #define DATA_LIST_H
 

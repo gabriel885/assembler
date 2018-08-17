@@ -12,9 +12,9 @@ L1:		inc 	K
 .entry LOOP		
 		bne 	LOOP(K,W)
 END:		stop
-STR:		.string "abcdegasdf"
-LENGTH:		.data	6,-9,15,100,-20
-K:	 	.data	22,12,123,103,123
+STR:		.string "abcdef"
+LENGTH:		.data	6,-9,15
+K:	 	.data	22
 .extern L3
 
 

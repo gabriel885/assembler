@@ -1,9 +1,3 @@
-/*
-Authors:
-Guy Komari
-Gil Mansharov
-*/
-
 #ifndef ERRORS_H
 #define ERRORS_H
 
@@ -53,8 +47,6 @@ Gil Mansharov
 
 #define ALLOCATE_MEMORY_ERROR "cannot allocate memory "
 
-#define STRUCT_DEFINITION_ERROR "Unrecognized Type in struct definition"
-
 #define INVALID_DATA_TYPE "Invalid data type "
 
 #define INVALID_NUMBER_IN_DATA_LABEL "Invalid number in .data label"
@@ -89,7 +81,6 @@ Gil Mansharov
 
 #define PRN_COMMAND_ADDRESSING_MODE_ERROR	"Only \"prn\" opcode can use immediate addressing mode in the destination operand"
 
-
 #define TOO_MUCH_OPERANDS "Too many operands in command" 
 
 #define SYMBOLS_LIST_MEM_ALLOCATION_FAILURE	"Memory allocation failed in symbols list addition"
@@ -97,8 +88,6 @@ Gil Mansharov
 #define MISSING_SPACE_AFTER_STRING_DECLARATION	"Missing space after .string declaration"
 
 #define MISSING_SPACE_AFTER_DATA_DECLARATION	"Missing space after .data declaration"
-
-#define MISSING_SPACE_AFTER_STRUCT_DECLARATION	"Missing space after .struct declaration"
 
 #define ERROR_UNKNOWN_DECLARATION "Error unknown declaration - "
 
@@ -116,13 +105,7 @@ Gil Mansharov
 
 #define OVERFLOW_COMMAND_NEGATIVE_NUMBER "negative immediate too large to fit in 8 bits"
 
-#define SORCE_OPERAND_NOT_NUMBER_IN_STRUCT "Source opernd should be a number"
-
-#define DESTINATION_OPERAND_NOT_STRING_IN_STRUCT "Destination opernd should be a String"
-
 #define MISSING_ARGUMENTS_IN_DIRECTIVE "Missing arguments in directive"
-
-#define TOO_MUCH_WORDS_IN_STRUCT	"Too much words in the struct"
 
 #define NOT_NUMBER_IN_DATA "Invalid number in .data declaration" 
 
@@ -137,6 +120,7 @@ Gil Mansharov
 #define INVALID_LABEL_OR_OPCODE_DECLARATION "Invalid label or opcode declaration" 
 
 #define INVALID_LABEL "Invalid label entered"
+
 /*
 Description: Prints an error that is detected during the first pass (compilation error)
 error - error description

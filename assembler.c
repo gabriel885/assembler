@@ -1,7 +1,7 @@
 #include "assembler.h"
 
 /*
-Description: This function gets a file name and assembles a single file
+Description: This function gets a file name and assembles a single file output object file 
 */
 void runAssembler(char* fileName){
 	
@@ -13,6 +13,6 @@ void runAssembler(char* fileName){
 		printFileError(ERRORS_IN_SECOND_PASS, fileName);
 		return;			
 	}	
-	/* compliation succedded */
+	return; /* compilation succeeded */
 
 }

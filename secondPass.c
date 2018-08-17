@@ -225,6 +225,7 @@ void printToEntryFile(char* line){
 	free(labelBuffer);
 	fclose(entFile);
 }
+
 /*
 Description:
 Prints To extern File
@@ -247,6 +248,7 @@ void printToExternFile(char *operand){
 	fprintf(extFile, "%s\t%ld\n", operand, ICounter);
 	fclose(extFile);
 }
+
 /*
 Description:
 Checks if an entry label was defined during the assembly file.
@@ -418,12 +420,8 @@ bool encodingCommand(char* line){
 			}
 			else{
 				noerrors = FALSE;			
-			}
-		
-								
+			}						
 		}
-
-
 	}
 	else{
 
@@ -452,7 +450,6 @@ bool encodingCommand(char* line){
 		}
 			noerrors &= !makeBinaryCode(opcodeGroup, opcodeName, sourceOperand, destOperand);
 	}
-
 
 	if (noerrors){
 		free(lineBuffer);
@@ -561,6 +558,7 @@ bool makeBinaryCodeJumpingWithParameters(int opcodeGroup, char* opcode, char *de
 	return FALSE;
 
 }
+
 /*
 Description:
 The executor of line encoding.

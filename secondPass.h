@@ -28,14 +28,11 @@ bool encodingCommand(char*);
 /* encode jumping with parameters command */
 bool makeBinaryCodeJumpingWithParameters(int,char*,char*,char*,char*);
 
+void printRegisterWeird(char *, char *, bool, bool);
+
+void copyBinaryRegister(int *, int, char *);
+
 bool makeBinaryCode(int,char*,char*,char*);
-
-void makeSingleOperandBinary(char *, int *);
-
-/* prints  IC and DC to the first line of object file */
-void printICandDC();
-
-void printBinaryWord(int *);
 
 void setOpcodeBinaryCode(char *, int *);
 
@@ -46,22 +43,25 @@ bool makeOperandsWeird(int, int *, int *, char *, char *);
 /* print label to weird 2 base and write to object file */
 bool printLabelWeird(char *operand);
 
-void printRegisterWeird(char *, char *, bool, bool);
+void makeSingleOperandBinary(char *, int *);
 
-void copyBinaryRegister(int *, int, char *);
-
-void printNumberWeird(char*, char *);
-
-bool printDestOperand(char *, char *, int);
+/* prints  IC and DC to the first line of object file */
+void printICandDC();
 
 bool printWeirdDataOperand(char *);
 
 void printDataWeird();
 
-bool LabelDeclaredButNotDefined(char *);
+void printNumberWeird(char*, char *);
+
+bool printDestOperand(char *, char *, int);
 
 void resetFilesName(char *, char *, char *);
 
 void resetSingleLine(char *);
+
+bool LabelDeclaredButNotDefined(char *);
+
+void printBinaryWord(int *);
 
 #endif

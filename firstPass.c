@@ -44,8 +44,8 @@ bool firstpass(char* filename){
 	}
 
 	/*parse every line in file*/
-	while ((endFile = readLine(fh, line)))
-	{
+	while ((endFile = readLine(fh, line))){
+
 		is_label = is_extern = is_entry = is_data_command = FALSE;
 
 		if (isComment(line) || isEmptySentence(line)) {
@@ -81,7 +81,7 @@ bool firstpass(char* filename){
 		if (!is_extern && is_data_command ){
 			/*case - the data definition are inside a label 
 			LABEL: .string "abcd" 
-			XYZ: .data 7,-57,17,9			
+			XYZ: .data 1,-5,7,19			
 			*/
 
 			if (is_label){ 
@@ -92,7 +92,7 @@ bool firstpass(char* filename){
 					/* check if symbol with .data .string declaration should have value IC or DC */				
 				}
 				else{
-					printError("Label already defined");
+					printError(LABEL_IS_ALREADY_DEFINED);
 					noErrorsFlag &= !defined_label; /*if label already defined then there is an error*/	
 				}
 			}
@@ -108,6 +108,7 @@ bool firstpass(char* filename){
 				noErrorsFlag &= ParseData(&dataListHead, &dataListTail, line, is_label, labelName);
 			}
 		}
+
 		/*case - there is an extern declaration*/
 		else if (is_extern){
 			/*with a label*/
@@ -120,6 +121,7 @@ bool firstpass(char* filename){
 				continue;
 			}
 		}
+
 		/* case - command declaration */
 		else if(!is_data_command){ 
 
@@ -141,6 +143,7 @@ bool firstpass(char* filename){
 																		second pass*/
 			}
 		}
+
 		resetLine(line, labelName, data);
 	}
 	
@@ -160,8 +163,8 @@ bool firstpass(char* filename){
 Description: parses the .data or .string commands and inserts it to the data list, and updates DC.
 Returns true if no errors were found. 
 */
-bool ParseData(dataPtr *dataListHead, dataPtr *dataListTail, char *line, bool is_label, char *labelName)
-{
+bool ParseData(dataPtr *dataListHead, dataPtr *dataListTail, char *line, bool is_label, char *labelName){
+
 	bool hasError;
 	int i, dataLength, strLength, numRequiredBytes, count;
 	char *token, *temp, *dataTempBuffer;
@@ -175,6 +178,7 @@ bool ParseData(dataPtr *dataListHead, dataPtr *dataListTail, char *line, bool is
 	const int dataSymbolLength = DATA_COMMAND_LENGTH;
 
 	i = dataLength = strLength = numRequiredBytes = count = 0;
+
 	dataLength = strlen(line);
 
 	dataTempBuffer = (char*)malloc(dataLength + 1);
@@ -188,7 +192,6 @@ bool ParseData(dataPtr *dataListHead, dataPtr *dataListTail, char *line, bool is
 	strncpy(dataTempBuffer, line, dataLength + 1);
 
 	/*get data type*/
-
 	if (getSymbol(dataTempBuffer, symbolType, is_label) == FALSE){
 		printError(INVALID_DATA_TYPE);
 		free(dataTempBuffer);
@@ -226,6 +229,7 @@ bool ParseData(dataPtr *dataListHead, dataPtr *dataListTail, char *line, bool is
 			return TRUE;
 		}
 	}
+	
 	/* .data */
 	else if (strncmp(symbolType, dataSymbol, dataSymbolLength) == 0){
 		temp += dataSymbolLength;
