@@ -1,1 +1,1 @@
-C assembler project Open University
+C assembler project Open University. (course 20465)
